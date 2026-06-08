@@ -4,10 +4,77 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Forum de PC</title>
-        <link rel="stylesheet" href="assets/style/index.css">
-        <link rel="icon" type="image/png" href="assets/images/logo.png">
+        <link rel="stylesheet" href="../assets/style/index.css">
+        <link rel="icon" type="image/png" href="../assets/images/logo.png">
     </head>
     <body>
-        
+        <header class="site-header">
+            <div class="brand">
+                <img src="../assets/images/logo.png" alt="Logo Forum PC" class="logo">
+                <div>
+                    <h1>Forum PC & Électronique</h1>
+                    <p>Partage, conseils et nouveautés autour du matériel.</p>
+                </div>
+            </div>
+            <nav class="site-nav">
+                <a href="#top">Accueil</a>
+                <a href="#features">Fonctionnalités</a>
+                <a href="#topics">Sujets</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero" id="top">
+                <div class="hero-copy">
+                    <p class="eyebrow">Bienvenue sur votre espace tech</p>
+                    <h2>Un forum simple pour les passionnés de PC et composants électroniques</h2>
+                    <p>Échangez des astuces, discutez de matériel, partagez vos montages et restez informé des dernières tendances hardware.</p>
+                    <div class="hero-actions">
+                        <a class="button primary" href="#topics">Découvrir les sujets</a>
+                        <a class="button secondary" href="#features">Pourquoi nous rejoindre</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="chip-panel">
+                        <span>CPU</span>
+                        <span>GPU</span>
+                        <span>RAM</span>
+                        <span>SSD</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature-section" id="features">
+                <h3>Ce que vous trouverez ici</h3>
+                <div class="cards">
+                    <article class="card">
+                        <h4>Conseils matériel</h4>
+                        <p>Trouvez de l’aide pour choisir un processeur, une carte graphique ou un ventilateur adapté à votre build.</p>
+                    </article>
+                    <article class="card">
+                        <h4>Projets et builds</h4>
+                        <p>Partagez vos configurations, vos montages et vos idées pour construire ou améliorer votre PC.</p>
+                    </article>
+                    <article class="card">
+                        <h4>Actualités hardware</h4>
+                        <p>Restez informé des sorties, innovations et tendances dans le monde de l’électronique et du gaming.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="topics-section" id="topics">
+                <h3>Sujets populaires</h3>
+                <ul class="topic-list">
+                    <li>Montages et tests de PC</li>
+                    <li>Optimisation et overclocking</li>
+                    <li>Composants d’occasion</li>
+                    <li>Accessoires et périphériques</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>Forum PC & Électronique — Un espace pour partager et apprendre.</p>
+        </footer>
     </body>
 </html>
