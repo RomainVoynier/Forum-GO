@@ -1,0 +1,15 @@
+package main
+
+import (
+	"log"
+	"net/http"
+)
+
+func main() {
+	fs := http.FileServer(http.Dir("html"))
+	http.Handle("/", fs)
+	addr := ":8080"
+	log.Println("Starting", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
+}
+
