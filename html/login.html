@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se Connecter - Forum PC</title>
+    <link rel="stylesheet" href="/assets/style/login.css">
+    <link rel="icon" type="image/png" href="/assets/images/logo.jpg">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <img src="/assets/images/logo.jpg" alt="Logo Forum PC" class="logo">
+            <div>
+                <h1>Forum PC & Électronique</h1>
+                <p>Partage, conseils et nouveautés autour du matériel.</p>
+            </div>
+        </div>
+        <nav class="site-nav">
+            <a href="/">Accueil</a>
+            <a href="/#features">Fonctionnalités</a>
+            <a href="/#topics">Sujets</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="login-section">
+            <div class="login-container">
+                <div class="login-wrapper">
+                    <div class="login-header">
+                        <h2>Se Connecter</h2>
+                        <p>Accédez à votre compte</p>
+                    </div>
+
+                    {{if .Error}}
+                    <div class="alert alert-error">
+                        {{.Error}}
+                    </div>
+                    {{end}}
+
+                    {{if .Success}}
+                    <div class="alert alert-success">
+                        Bienvenue {{.Username}}! Vous êtes connecté.
+                    </div>
+                    {{end}}
+
+                    <form method="POST" action="/login" class="login-form">
+                        <div class="form-group">
+                            <label for="username">Nom d'utilisateur ou Email</label>
+                            <input type="text" id="username" name="username" placeholder="Votre pseudo ou email" required value="{{.Username}}">
+                            {{if .UsernameError}}<span class="error">{{.UsernameError}}</span>{{end}}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                            {{if .PasswordError}}<span class="error">{{.PasswordError}}</span>{{end}}
+                        </div>
+
+                        <button type="submit" class="button primary">Se Connecter</button>
+                    </form>
+
+                    <div class="signup-section">
+                        <p>Vous n'avez pas de compte?</p>
+                        <a href="/register" class="button secondary">Créer un compte</a>
+                    </div>
+                </div>
+
+                <div class="login-visual">
+                    <div class="visual-card">
+                        <span class="badge">Bienvenue</span>
+                        <h3>Rejoignez-nous</h3>
+                        <p>Connectez-vous pour accéder à tous les avantages de notre communauté.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Forum PC & Électronique — Un espace pour partager et apprendre.</p>
+    </footer>
+</body>
+</html>

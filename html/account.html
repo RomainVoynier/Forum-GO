@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un Compte - Forum PC</title>
+    <link rel="stylesheet" href="/assets/style/account.css">
+    <link rel="icon" type="image/png" href="/assets/images/logo.jpg">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <img src="/assets/images/logo.jpg" alt="Logo Forum PC" class="logo">
+            <div>
+                <h1>Forum PC & Électronique</h1>
+                <p>Partage, conseils et nouveautés autour du matériel.</p>
+            </div>
+        </div>
+        <nav class="site-nav">
+            <a href="/">Accueil</a>
+            <a href="/#features">Fonctionnalités</a>
+            <a href="/#topics">Sujets</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="register-section">
+            <div class="register-container">
+                <div class="register-wrapper">
+                    <div class="register-header">
+                        <h2>Créer un Compte</h2>
+                        <p>Rejoignez notre communauté de passionnés</p>
+                    </div>
+
+                    {{if .Error}}
+                    <div class="alert alert-error">
+                        {{.Error}}
+                    </div>
+                    {{end}}
+
+                    {{if .Success}}
+                    <div class="alert alert-success">
+                        Bienvenue {{.Username}}! Votre compte a été créé avec succès.
+                    </div>
+                    {{end}}
+
+                    <form method="POST" action="/register" class="register-form">
+                        <div class="form-group">
+                            <label for="username">Nom d'utilisateur</label>
+                            <input type="text" id="username" name="username" placeholder="Votre pseudo" required value="{{.Username}}">
+                            {{if .UsernameError}}<span class="error">{{.UsernameError}}</span>{{end}}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Adresse Email</label>
+                            <input type="email" id="email" name="email" placeholder="votre@email.com" required value="{{.Email}}">
+                            {{if .EmailError}}<span class="error">{{.EmailError}}</span>{{end}}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                            {{if .PasswordError}}<span class="error">{{.PasswordError}}</span>{{end}}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmer le mot de passe</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required>
+                            {{if .ConfirmError}}<span class="error">{{.ConfirmError}}</span>{{end}}
+                        </div>
+
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">J'accepte les <a href="#">conditions d'utilisation</a></label>
+                            {{if .TermsError}}<span class="error">{{.TermsError}}</span>{{end}}
+                        </div>
+
+                        <button type="submit" class="button primary">Créer mon Compte</button>
+                    </form>
+
+                    <div class="login-section">
+                        <p>Vous avez déjà un compte?</p>
+                        <a href="/login" class="button secondary">Se connecter</a>
+                    </div>
+                </div>
+
+                <div class="register-visual">
+                    <div class="visual-card">
+                        <span class="badge">Rejoignez-nous</span>
+                        <h3>Accès à la communauté</h3>
+                        <p>Partagez vos builds, échangez des conseils et participez aux discussions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Forum PC & Électronique — Un espace pour partager et apprendre.</p>
+    </footer>
+</body>
+</html>

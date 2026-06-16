@@ -88,19 +88,19 @@ main {
     padding-bottom: 3rem;
 }
 
-/* Section d'inscription */
-.register-section {
+/* Section de connexion */
+.login-section {
     padding: 3rem 0;
 }
 
-.register-container {
+.login-container {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 3rem;
     align-items: center;
 }
 
-.register-wrapper {
+.login-wrapper {
     background: rgba(13, 24, 38, 0.82);
     border: 1px solid var(--border);
     border-radius: 28px;
@@ -108,17 +108,17 @@ main {
     box-shadow: var(--shadow);
 }
 
-.register-header {
+.login-header {
     margin-bottom: 2rem;
 }
 
-.register-header h2 {
+.login-header h2 {
     margin: 0 0 0.5rem;
     font-size: 2rem;
     color: var(--text);
 }
 
-.register-header p {
+.login-header p {
     margin: 0;
     color: var(--muted);
 }
@@ -155,7 +155,7 @@ main {
     color: var(--accent);
 }
 
-.register-form {
+.login-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -175,7 +175,6 @@ main {
 }
 
 .form-group input[type="text"],
-.form-group input[type="email"],
 .form-group input[type="password"] {
     padding: 0.95rem 1.25rem;
     background: rgba(255, 255, 255, 0.05);
@@ -187,13 +186,11 @@ main {
 }
 
 .form-group input[type="text"]::placeholder,
-.form-group input[type="email"]::placeholder,
 .form-group input[type="password"]::placeholder {
     color: var(--muted);
 }
 
 .form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
 .form-group input[type="password"]:focus {
     outline: none;
     background: rgba(255, 255, 255, 0.08);
@@ -213,67 +210,6 @@ main {
     font-size: 0.85rem;
     margin-top: 0.5rem;
     min-height: 18px;
-}
-
-.password-strength {
-    height: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    margin-top: 0.75rem;
-    overflow: hidden;
-}
-
-.password-strength::after {
-    content: '';
-    display: block;
-    height: 100%;
-    background-color: transparent;
-    transition: all 0.3s ease;
-    width: 0%;
-}
-
-.password-strength.weak::after {
-    width: 33%;
-    background-color: #ef4444;
-}
-
-.password-strength.medium::after {
-    width: 66%;
-    background-color: #f59e0b;
-}
-
-.password-strength.strong::after {
-    width: 100%;
-    background-color: var(--accent);
-}
-
-.form-group.checkbox {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 0.75rem;
-}
-
-.form-group.checkbox input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-top: 0.15rem;
-    cursor: pointer;
-    accent-color: var(--accent);
-}
-
-.form-group.checkbox label {
-    margin: 0;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.form-group.checkbox a {
-    color: var(--accent);
-    transition: opacity 0.2s ease;
-}
-
-.form-group.checkbox a:hover {
-    opacity: 0.8;
 }
 
 .button {
@@ -315,20 +251,20 @@ main {
     background: rgba(61, 227, 161, 0.1);
 }
 
-.login-section {
+.signup-section {
     text-align: center;
     padding-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.login-section p {
+.signup-section p {
     margin: 0 0 1rem;
     color: var(--muted);
     font-size: 0.95rem;
 }
 
 /* Visual Card */
-.register-visual {
+.login-visual {
     position: relative;
     min-height: 320px;
     background: linear-gradient(135deg, rgba(61, 227, 161, 0.12), rgba(56, 114, 255, 0.08));
@@ -384,12 +320,12 @@ main {
         width: min(100%, calc(100% - 2rem));
     }
 
-    .register-container {
+    .login-container {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
 
-    .register-visual {
+    .login-visual {
         min-height: 260px;
     }
 
@@ -410,11 +346,11 @@ main {
         justify-content: flex-start;
     }
 
-    .register-wrapper {
+    .login-wrapper {
         padding: 1.75rem;
     }
 
-    .register-header h2 {
+    .login-header h2 {
         font-size: 1.5rem;
     }
 
