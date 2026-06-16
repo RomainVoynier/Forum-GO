@@ -20,6 +20,7 @@
                 <a href="#top">Accueil</a>
                 <a href="#features">Fonctionnalités</a>
                 <a href="#topics">Sujets</a>
+                <a class="button primary" id="openCreateModal" href="#">Créer un fil</a>
             </nav>
         </header>
 
@@ -31,6 +32,7 @@
                     <p>Échangez des astuces, discutez de matériel, partagez vos montages et restez informé des dernières tendances hardware.</p>
                     <div class="hero-actions">
                         <a class="button primary" href="#topics">Découvrir les sujets</a>
+                        <a class="button" id="openCreateModal2" href="#">Créer un fil</a>
                     </div>
                 </div>
                 <div class="hero-visual">
@@ -63,11 +65,8 @@
 
             <section class="topics-section" id="topics">
                 <h3>Sujets populaires</h3>
-                <ul class="topic-list">
-                    <li>Montages et tests de PC</li>
-                    <li>Optimisation et overclocking</li>
-                    <li>Composants d'occasion</li>
-                    <li>Accessoires et périphériques</li>
+                <ul class="topic-list" id="topicList">
+                    <li>Chargement des sujets...</li>
                 </ul>
             </section>
         </main>
@@ -75,5 +74,147 @@
         <footer class="site-footer">
             <p>Forum PC & Électronique — Un espace pour partager et apprendre.</p>
         </footer>
+
+        <script>
+            function escapeHTML(str) {
+                return String(str).replace(/[&<>'"]/g, function (tag) {
+                    const chars = {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        "'": '&#39;',
+                        '"': '&quot;'
+                    };
+                    return chars[tag] || tag;
+                });
+            }
+
+            async function loadTopics() {
+                const list = document.getElementById('topicList');
+                try {
+                    const response = await fetch('/topics');
+                    if (!response.ok) {
+                        list.innerHTML = '<li>Impossible de charger les sujets.</li>';
+                        return;
+                    }
+
+                    const topics = await response.json();
+                    list.innerHTML = '';
+
+                    if (!topics.length) {
+                        list.innerHTML = '<li>Aucun sujet pour le moment. Créez le premier fil !</li>';
+                        return;
+                    }
+
+                    topics.forEach(topic => {
+                        const item = document.createElement('li');
+                        item.className = 'topic-item';
+                        item.innerHTML = `
+                            <div class="topic-header">
+                                <strong>${escapeHTML(topic.title)}</strong>
+                                <button type="button" class="button danger delete-topic" data-title="${escapeHTML(topic.title)}" data-created-at="${escapeHTML(topic.createdAt)}">Supprimer</button>
+                            </div>
+                            <div class="topic-meta">${escapeHTML(topic.author)} · ${escapeHTML(topic.createdAt)}</div>
+                            <p>${escapeHTML(topic.content)}</p>
+                        `;
+
+                        const deleteButton = item.querySelector('.delete-topic');
+                        deleteButton.addEventListener('click', async () => {
+                            if (!confirm('Supprimer ce fil ?')) return;
+
+                            const response = await fetch('/topic/delete', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    title: deleteButton.dataset.title,
+                                    createdAt: deleteButton.dataset.createdAt
+                                })
+                            });
+
+                            if (!response.ok) {
+                                const errorText = await response.text();
+                                alert(errorText || 'Erreur lors de la suppression du fil.');
+                                return;
+                            }
+
+                            item.remove();
+                        });
+
+                        list.appendChild(item);
+                    });
+                } catch (error) {
+                    list.innerHTML = '<li>Erreur lors du chargement des sujets.</li>';
+                }
+            }
+
+            window.addEventListener('DOMContentLoaded', loadTopics);
+        </script>
+
+        <!-- Create thread modal -->
+        <div id="createModal" class="modal" aria-hidden="true">
+            <div class="modal-backdrop" id="modalBackdrop"></div>
+            <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <button class="modal-close" id="closeCreateModal" aria-label="Fermer">×</button>
+                <h2 id="modalTitle">Créer un nouveau fil</h2>
+                <form id="modalThreadForm">
+                    <label for="m_title">Titre</label>
+                    <input type="text" id="m_title" name="title" placeholder="Entrez le titre" required>
+
+                    <label for="m_content">Contenu</label>
+                    <textarea id="m_content" name="content" rows="10" placeholder="Écrivez votre message..." required></textarea>
+
+                    <button type="submit" class="button primary">Publier</button>
+                </form>
+                <p id="modalMessage" class="message"></p>
+            </div>
+        </div>
+
+        <script>
+            // Modal open/close logic
+            const openBtn = document.getElementById('openCreateModal');
+            const openBtn2 = document.getElementById('openCreateModal2');
+            const modal = document.getElementById('createModal');
+            const closeBtn = document.getElementById('closeCreateModal');
+            const backdrop = document.getElementById('modalBackdrop');
+
+            function showModal() {
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('m_title').focus();
+            }
+
+            function hideModal() {
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                document.getElementById('modalMessage').textContent = '';
+                document.getElementById('modalThreadForm').reset();
+            }
+
+            if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); showModal(); });
+            if (openBtn2) openBtn2.addEventListener('click', (e) => { e.preventDefault(); showModal(); });
+            closeBtn.addEventListener('click', hideModal);
+            backdrop.addEventListener('click', hideModal);
+
+            // Submit modal form
+            const modalForm = document.getElementById('modalThreadForm');
+            modalForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const title = document.getElementById('m_title').value.trim();
+                const content = document.getElementById('m_content').value.trim();
+                const messageEl = document.getElementById('modalMessage');
+                if (!title || !content) { messageEl.textContent = 'Le titre et le contenu sont requis.'; return; }
+                const res = await fetch('/topic/add', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, content })
+                });
+                if (!res.ok) {
+                    const t = await res.text(); messageEl.textContent = t || 'Erreur lors de la création.'; return;
+                }
+                hideModal();
+                loadTopics();
+            });
+        </script>
     </body>
 </html>

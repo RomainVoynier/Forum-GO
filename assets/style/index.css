@@ -3,10 +3,10 @@
     --bg: #071217;
     --panel: #0d1820;
     --panel-soft: #122432;
-    --text: #eef4ff;
+    --text: #ffffff;
     --muted: #a3b7cb;
-    --accent: #3de3a1;
-    --accent-soft: rgba(61, 227, 161, 0.15);
+    --accent: #4c00ff;
+    --accent-soft: rgba(76, 0, 255, 0.15);
     --border: rgba(99, 150, 183, 0.2);
     --shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
 }
@@ -82,6 +82,10 @@ a {
     color: var(--accent);
 }
 
+.site-nav a.primary:hover {
+    color: #031211;
+}
+
 main {
     width: min(1120px, calc(100% - 2rem));
     margin: 0 auto;
@@ -147,9 +151,13 @@ main {
     color: #031211;
 }
 
+.primary:hover {
+    color: #031211;
+}
+
 .secondary {
     background: transparent;
-    border-color: rgba(61, 227, 161, 0.35);
+    border-color: rgba(244, 13, 13, 0.35);
     color: var(--text);
 }
 
@@ -239,6 +247,26 @@ main {
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
+    display: grid;
+    gap: 0.75rem;
+}
+
+.topic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.topic-meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.button.danger {
+    background: #e63d3d;
+    color: #ffffff;
+    border-color: rgba(230, 61, 61, 0.25);
 }
 
 .site-footer {
@@ -269,6 +297,51 @@ main {
         grid-template-columns: 1fr;
     }
 }
+.modal {
+    display: none;
+}
+.modal.open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+}
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2,8,12,0.6);
+}
+.modal-dialog {
+    position: relative;
+    width: min(920px, calc(100% - 3rem));
+    max-width: 920px;
+    margin: 4rem auto;
+    background: linear-gradient(180deg, rgba(13,24,38,0.98), rgba(10,18,28,0.96));
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 60px 120px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.modal-close {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 1.8rem;
+}
+.modal-dialog h2 { margin-top: 0; }
+.modal-dialog label { display:block; margin-top:1rem; color:var(--muted); }
+.modal-dialog input, .modal-dialog textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text);
+}
+.modal-dialog .button { margin-top:1rem; }
 
 @media (max-width: 640px) {
     .site-header {

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Créer un fil de discussion</title>
+        <link rel="stylesheet" href="../assets/style/create_post.css">
+        <link rel="icon" type="image/png" href="../assets/images/logo.jpg">
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="brand">
+                <img src="../assets/images/logo.jpg" alt="Logo Forum PC" class="logo">
+                <div>
+                    <h1>Créer un nouveau fil</h1>
+                    <p>Publiez un sujet visible par tous les utilisateurs.</p>
+                </div>
+            </div>
+            <nav class="site-nav">
+                <a href="/">Accueil</a>
+            </nav>
+        </header>
+
+        <main class="create-post-page">
+            <section class="create-post-form">
+                <h2>Nouvelle discussion</h2>
+                <form id="threadForm">
+                    <div class="form-field">
+                        <label for="title">Titre</label>
+                        <input type="text" id="title" name="title" placeholder="Entrez le titre du fil" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="content">Contenu</label>
+                        <textarea id="content" name="content" rows="10" placeholder="Écrivez votre message ici..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="button primary">Publier</button>
+                </form>
+                <p id="message" class="message"></p>
+            </section>
+
+            <section class="delete-post-form">
+                <h2>Supprimer un fil</h2>
+                <form id="deleteForm">
+                    <div class="form-field">
+                        <label for="deleteTitle">Titre du fil à supprimer</label>
+                        <input type="text" id="deleteTitle" name="title" placeholder="Entrez le titre du fil" required>
+                    </div>
+                    <button type="submit" class="button danger">Supprimer</button>
+                </form>
+                <p id="deleteMessage" class="message"></p>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>Forum PC & Électronique — Créez un fil pour tous les utilisateurs.</p>
+        </footer>
+
+        <script>
+            const form = document.getElementById('threadForm');
+            const message = document.getElementById('message');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const title = document.getElementById('title').value.trim();
+                const content = document.getElementById('content').value.trim();
+
+                if (!title || !content) {
+                    message.textContent = 'Le titre et le contenu sont requis.';
+                    return;
+                }
+
+                const response = await fetch('/topic/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, content })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    message.textContent = errorText || 'Erreur lors de la création du fil.';
+                    return;
+                }
+
+                window.location.href = '/';
+            });
+
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteMessage = document.getElementById('deleteMessage');
+
+            deleteForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const title = document.getElementById('deleteTitle').value.trim();
+
+                if (!title) {
+                    deleteMessage.textContent = 'Le titre est requis pour supprimer un fil.';
+                    return;
+                }
+
+                const response = await fetch('/topic/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    deleteMessage.textContent = errorText || 'Erreur lors de la suppression du fil.';
+                    return;
+                }
+
+                deleteMessage.textContent = 'Fil supprimé avec succès.';
+                deleteForm.reset();
+            });
+        </script>
+    </body>
+</html>
