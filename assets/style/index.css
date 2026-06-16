@@ -56,12 +56,14 @@ a {
 }
 
 .logo {
-    width: 54px;
-    height: 54px;
-    border-radius: 14px;
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 24px;
     border: 1px solid rgba(61, 227, 161, 0.18);
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.5rem;
+    background: #ffffff;
+    padding: 0;
 }
 
 .site-nav {
