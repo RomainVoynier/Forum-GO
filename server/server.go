@@ -9,6 +9,8 @@ import (
     "strings"
     "sync"
     "time"
+
+    "forum-go/handlers"
 )
 
 type Topic struct {
@@ -34,6 +36,30 @@ func RegisterHandlers() {
     http.HandleFunc("/topic/add", addTopicHandler)
     http.HandleFunc("/topic/delete", deleteTopicHandler)
     http.HandleFunc("/create_post.html", createPostHandler)
+
+    http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+        if r.Method == http.MethodGet {
+            handlers.RegisterPage(w, r)
+            return
+        }
+        if r.Method == http.MethodPost {
+            handlers.Register(w, r)
+            return
+        }
+        http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+    })
+
+    http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+        if r.Method == http.MethodGet {
+            handlers.LoginPage(w, r)
+            return
+        }
+        if r.Method == http.MethodPost {
+            handlers.Login(w, r)
+            return
+        }
+        http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+    })
 }
 
 func createPostHandler(w http.ResponseWriter, r *http.Request) {
@@ -80,18 +106,8 @@ func addTopicHandler(w http.ResponseWriter, r *http.Request) {
         topic.Content = r.FormValue("content")
     }
 
-    topic.Title = strings.TrimSpace(topic.Title)
-    topic.Author = strings.TrimSpace(topic.Author)
-    topic.Content = strings.TrimSpace(topic.Content)
-
-    if topic.Title == "" {
-        http.Error(w, "Le titre est requis", http.StatusBadRequest)
-        return
-    }
-
-    if topic.Content == "" {
-        http.Error(w, "Le contenu est requis", http.StatusBadRequest)
-        return
+    if cookie, err := r.Cookie("forum_username"); err == nil {
+        topic.Author = strings.TrimSpace(cookie.Value)
     }
 
     if topic.Author == "" {

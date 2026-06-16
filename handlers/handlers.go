@@ -112,7 +112,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Afficher le succès
+	// Afficher le succès et connecter l'utilisateur
+	setSessionCookie(w, user.Username)
+
 	tmpl, _ := template.ParseFiles("html/account.html")
 	data := RegisterPageData{
 		Username: user.Username,
@@ -194,9 +196,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Succès ! Connexion réussie
-	data.Success = true
-	data.Username = user.Username
-	tmpl, _ := template.ParseFiles("html/login.html")
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	tmpl.Execute(w, data)
+    setSessionCookie(w, user.Username)
+    data.Success = true
+    data.Username = user.Username
+    tmpl, _ := template.ParseFiles("html/login.html")
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    tmpl.Execute(w, data)
+}
+
+func setSessionCookie(w http.ResponseWriter, username string) {
+    cookie := &http.Cookie{
+        Name:     "forum_username",
+        Value:    username,
+        Path:     "/",
+        HttpOnly: true,
+        MaxAge:   86400,
+    }
+    http.SetCookie(w, cookie)
 }
