@@ -12,4 +12,3 @@ func main() {
 	log.Println("Starting", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
-
